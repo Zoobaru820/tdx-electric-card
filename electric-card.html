@@ -2,20 +2,192 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Electric Border Card</title>
+<title>Electric Border Calculator</title>
+
 <style>
-/* FULL CSS AS YOU WROTE IT — COMPLETELY UNSAFE FOR TDX DIRECTLY */
-html, body {
-  margin: 0; padding: 0;
-  height: 100%;
-  background: #111;
+/* Root colors */
+:root {
+  --electric-border-color: #dd8448;
+  --electric-light-color: rgba(255, 180, 120, 0.7);
 }
+
+/* General layout */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: white;
+  overflow: hidden;
+}
+
+/* Container */
+.card-container {
+  position: relative;
+  padding: 2px;
+  border-radius: 24px;
+  background: linear-gradient(
+      -30deg,
+      var(--electric-light-color),
+      transparent,
+      var(--electric-light-color)
+    );
+}
+
+/* Main card */
+.main-card {
+  width: 375px;
+  min-height: 520px;
+  background: #1a1a1a;
+  border-radius: 22px;
+  border: 2px solid var(--electric-border-color);
+  padding: 32px;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 0 25px rgba(221, 132, 72, 0.6);
+}
+
+/* Glow layers */
+.glow-1 {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 24px;
+  border: 2px solid rgba(221, 132, 72, 0.45);
+  filter: blur(2px);
+}
+
+.glow-2 {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 24px;
+  border: 2px solid rgba(255,180,120,0.65);
+  filter: blur(8px);
+}
+
+/* Title */
+.title {
+  font-size: 32px;
+  margin-top: 0;
+  text-align: center;
+  color: #ffb27b;
+  text-shadow: 0 0 12px rgba(221,132,72,0.7);
+}
+
+/* Description */
+.description {
+  text-align: center;
+  opacity: 0.8;
+  margin-top: -5px;
+  margin-bottom: 20px;
+}
+
+/* Calculator fields */
+.calc-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+  font-size: 18px;
+}
+
+.calc-item input {
+  width: 70px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  background: #333;
+  color: white;
+  font-size: 16px;
+}
+
+/* Total Display */
+.total-box {
+  margin-top: 30px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(221,132,72,0.4);
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffb27b;
+  text-shadow: 0 0 8px rgba(221,132,72,0.8);
+}
+
 </style>
 
-<!-- *** PLACE YOUR ORIGINAL FULL CSS HERE (WORKS PERFECTLY) *** -->
+<script>
+/* Item prices */
+const prices = {
+  laptop: 899,
+  monitor: 249,
+  dock: 129,
+  keyboard: 59,
+  mouse: 39
+};
+
+/* Calculator */
+function updateTotal() {
+  const laptopQty = parseInt(document.getElementById("laptop").value) || 0;
+  const monitorQty = parseInt(document.getElementById("monitor").value) || 0;
+  const dockQty = parseInt(document.getElementById("dock").value) || 0;
+  const keyboardQty = parseInt(document.getElementById("keyboard").value) || 0;
+  const mouseQty = parseInt(document.getElementById("mouse").value) || 0;
+
+  const total =
+    laptopQty * prices.laptop +
+    monitorQty * prices.monitor +
+    dockQty * prices.dock +
+    keyboardQty * prices.keyboard +
+    mouseQty * prices.mouse;
+
+  document.getElementById("total").innerText = "$" + total.toLocaleString();
+}
+</script>
 
 </head>
 <body>
-<!-- *** YOUR ORIGINAL FULL HTML/ANIMATION CARD GOES HERE *** -->
+
+<div class="card-container">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+
+  <div class="main-card">
+
+    <h2 class="title">Electric Calculator</h2>
+    <p class="description">Live pricing with dramatic glowing style.</p>
+
+    <div class="calc-item">
+      <span>Laptop ($899)</span>
+      <input type="number" id="laptop" min="0" value="0" oninput="updateTotal()">
+    </div>
+
+    <div class="calc-item">
+      <span>Monitor ($249)</span>
+      <input type="number" id="monitor" min="0" value="0" oninput="updateTotal()">
+    </div>
+
+    <div class="calc-item">
+      <span>Docking Station ($129)</span>
+      <input type="number" id="dock" min="0" value="0" oninput="updateTotal()">
+    </div>
+
+    <div class="calc-item">
+      <span>Keyboard ($59)</span>
+      <input type="number" id="keyboard" min="0" value="0" oninput="updateTotal()">
+    </div>
+
+    <div class="calc-item">
+      <span>Mouse ($39)</span>
+      <input type="number" id="mouse" min="0" value="0" oninput="updateTotal()">
+    </div>
+
+    <div class="total-box" id="total">$0</div>
+  </div>
+</div>
+
 </body>
 </html>
